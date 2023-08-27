@@ -7,7 +7,7 @@ var helmet = require('helmet')
 
 // config
 const mongoDB = require("./config/db")
-mongoDB()
+
 const cookieParser = require("cookie-parser")
 const fileUpload = require("express-fileupload")
 const cors = require('cors');
@@ -19,8 +19,9 @@ app.use(cookieParser())
 app.use(fileUpload())
 
 
-const allowedOrigins = ['https://blogbackend-jyeb.onrender.com', 'https://my-techblog.netlify.app'];
-// const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173'];
+// const allowedOrigins = ['https://blogbackend-jyeb.onrender.com', 'https://tech-stuffs.netlify.app'];
+// const allowedOrigins = ['https://blog-backend-lxeq.onrender.com', 'https://tech-stuffs.netlify.app'];
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173'];
 const corsOptions = {
     origin: function (origin, callback) {
         if (allowedOrigins.includes(origin) || !origin) {
@@ -40,8 +41,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
-    const allowedOrigins = ['https://blogbackend-jyeb.onrender.com', 'https://my-techblog.netlify.app'];
-    // const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173'];
+    // const allowedOrigins = ['https://blogbackend-jyeb.onrender.com', 'https://tech-stuffs.netlify.app'];
+    // const allowedOrigins = ['https://blog-backend-lxeq.onrender.com', 'https://tech-stuffs.netlify.app'];
+    const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173'];
 
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
@@ -99,8 +101,12 @@ app.use((error, req, res, next) => {
             message: error.message
         })
     }
-});
+})
 
-app.listen(port, () => {
-    console.log(`started at http://localhost:${port}`)
+mongoDB().then(() => {
+    app.listen(port, () => {
+        console.log(`started at http://localhost:${port}`)
+
+    })
+
 })
